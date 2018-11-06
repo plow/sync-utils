@@ -23,3 +23,9 @@ Regex search audit file:
 ```
 /2017/.*No\smatch
 ```
+
+Rename image files according to their creation date:
+```
+exiftool '-filename<CreateDate' -d IMG_%Y%m%d_%H%M%S%%-c.%%le -r -ext JPG -ext jpg .
+```
+
