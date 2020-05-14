@@ -24,7 +24,9 @@ Create hashes recursively:
 hashdeep -c md5 -v -r -l -W hashdeep_out.txt .
 ```
 
-Validate a hash file without re-hashing. It just checks whether the list of files in the current directory is equivalent with the file list in the hash file. It lists the files with are unique either to file system or the hash file (only file names and relative paths considered).
+Validate a hash file without re-hashing. It just checks whether the list of files in the current directory is equivalent with the file list in the hash file. 
+Input: Expects a `hashdeep_out.txt` in the current directory.
+Output: It lists the files which are unique either to file system or to the hash file (only file names and relative paths considered).
 ```
 ./hashing/hash_file_validation.sh
 ```
@@ -45,5 +47,17 @@ Regex search audit file:
 Rename image files according to their creation date:
 ```
 exiftool '-filename<CreateDate' -d IMG_%Y%m%d_%H%M%S%%-c.%%le -r -ext JPG -ext jpg .
+```
+
+Find file duplicates within a particular directory. Out of a set of identical files the first one listed in the input is kept and all the others are listed as duplicates.
+Input: Expects a `hashdeep_out.txt` in the current directory.
+Output: List of duplicates (file path only)
+```
+find_duplicates_in_hash_file.sh
+```
+
+Move duplicates to a separate folder. Directory structure will not be preserved in the destination folder `../photos_duplicates/`. However, existing destination files are backuped (numbered) and not overwritten. Hint: If some files are already moved (hence, moving them will fail) append `2>&1 >/dev/null | grep -v 'No such file or directory'` to the command in order to ignore non-existing files.
+```
+find_duplicates_in_hash_file.sh | xargs -d '\n' mv --backup=t -t ../photos_duplicates/
 ```
 

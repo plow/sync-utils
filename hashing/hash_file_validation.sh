@@ -13,6 +13,7 @@ find . -type f | sort > $tmpfilelist_actual
 # list of sorted file names in hashes file
 tail -n +6 hashdeep_out.txt | awk -F '[,]' '{print $3}' | sort > $tmpfilelist_hashed
 
+# compare sorted file lists with comm
 echo "| <-- Column 1: Files appearing only on file system but not in the hashes file (unique to file system)"
 echo -e "\t| <-- Column 2: Files appearing only in the hashes file but not on file system (unique to hashes file)"
 echo ""
