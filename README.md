@@ -31,6 +31,10 @@ Output: It lists the files which are unique either to file system or to the hash
 ./hashing/hash_file_validation.sh
 ```
 
+Merge all `hashdeep_out.txt` files in the subdirectories of the current working directory (one level only, not recursively). The output is printed to `stdout` and contains a hashdeep-alike header.
+```
+./hashing/merge_hash_files.sh > hashdeep_out.txt
+```
 
 ### Auditing
 
