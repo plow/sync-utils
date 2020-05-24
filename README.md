@@ -1,23 +1,28 @@
 # sync-utils
 Scripts to ensure file synchronization across multiple sources with different directory structures and file names
 
-## Base Commands
 
-### Mounting
+## Mounting
 
 Mounting the NAS volumes:
 ```
 sudo su
-mount -t nfs 192.168.0.10:/volume1/photos-tmp /mnt/photos-tmp/
+mount -t nfs 192.168.0.10:/volume1/photos-tmp /media/photos-tmp/
 ```
 
-
-### Hashing
+## Pre-Hashing
 
 Verify that all files are readable before hashing (`chmod` if not):
 ```
 find . ! -readable
 ```
+
+Rename image files according to their creation date:
+```
+exiftool '-filename<CreateDate' -d IMG_%Y%m%d_%H%M%S%%-c.%%le -r -ext JPG -ext jpg .
+```
+
+## Hashing
 
 Create hashes recursively:
 ```
@@ -36,22 +41,25 @@ Merge all `hashdeep_out.txt` files in the subdirectories of the current working 
 ./hashing/merge_hash_files.sh > hashdeep_out.txt
 ```
 
-### Auditing
+## Auditing
+
+### Auditing using hashdeep (hashing on the fly)
 
 Run an audit of the files in the current directory against the files listed in the hashes file provided:
 ```
-hashdeep -vvv -a -r -k /mnt/photos-tmp/2017/photos_new/hashdeep_out.txt . > hashdeep_audit.txt 2>&1
+hashdeep -vvv -a -r -k /media/photos-tmp/2017/photos_new/hashdeep_out.txt . > hashdeep_audit.txt 2>&1
 ```
 
-Regex search audit file:
-```
-/2017/.*No\smatch
-```
+Regex search audit file: `/2017/.*No\smatch`
 
-Rename image files according to their creation date:
-```
-exiftool '-filename<CreateDate' -d IMG_%Y%m%d_%H%M%S%%-c.%%le -r -ext JPG -ext jpg .
-```
+### Auditing using audit script (previously created hash files)
+
+The audit script checks all hashes in the current directory against hashes in a reference directory. The script lists files that are considered unique to current directory, i.e. files that are not yet exists in the reference directory. The script expects a `hashdeep_out.txt` file to be available in the current directory. The hash file of the reference directory is provided as argument. Example:
+
+```/path/sync-utils/auditing/audit.sh /media/photos-arch/2020/hashdeep_out.txt```
+
+
+### Duplicate handling
 
 Find file duplicates within a particular directory. Out of a set of identical files the first one listed in the input is kept and all the others are listed as duplicates.
 Input: Expects a `hashdeep_out.txt` in the current directory.
@@ -64,4 +72,3 @@ Move duplicates to a separate folder. Directory structure will not be preserved 
 ```
 find_duplicates_in_hash_file.sh | xargs -d '\n' mv --backup=t -t ../photos_duplicates/
 ```
-
