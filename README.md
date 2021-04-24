@@ -54,12 +54,12 @@ Regex search audit file: `/2017/.*No\smatch`
 
 ### Auditing using audit script (previously created hash files)
 
-The audit script checks all hashes in the current directory against hashes in a reference directory. The script lists files that are considered unique to current directory, i.e. files that are not yet exists in the reference directory. The script expects a `hashdeep_out.txt` file to be available in the current directory. The hash file of the reference directory is provided as argument. Example:
+The audit script checks all hashes in the current directory against hashes in a reference directory. The script lists files that are considered unique to current directory, i.e. files that are not yet exist in the reference directory. The script expects a `hashdeep_out.txt` file to be available in the current directory. The hash file of the reference directory is provided as argument. Example:
 
 ```/path/sync-utils/auditing/audit.sh /media/photos-arch/2020/hashdeep_out.txt```
 
 
-### Duplicate handling
+### Handling of duplicates
 
 Find file duplicates within a particular directory. Out of a set of identical files the first one listed in the input is kept and all the others are listed as duplicates.
 Input: Expects a `hashdeep_out.txt` in the current directory.
