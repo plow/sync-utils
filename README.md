@@ -50,7 +50,7 @@ Run an audit of the files in the current directory against the files listed in t
 hashdeep -vvv -a -r -k /media/photos-tmp/2017/photos_new/hashdeep_out.txt . > hashdeep_audit.txt 2>&1
 ```
 
-Regex search audit file: `/2017/.*No\smatch`
+Regex search audit file: `cat hashdeep_audit.txt | grep -oP '.*No\smatch'`
 
 ### Auditing using audit script (previously created hash files)
 
