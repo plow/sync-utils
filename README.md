@@ -72,3 +72,7 @@ Move duplicates to a separate folder. Directory structure will not be preserved 
 ```
 find_duplicates_in_hash_file.sh | xargs -d '\n' mv --backup=t -t ../photos_duplicates/
 ```
+
+## Archiving
+
+Directories can be ecrypted and prepared for archiving (e.g. on cloud storage) using the [archiving scripts](archiving/)
