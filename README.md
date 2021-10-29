@@ -24,18 +24,26 @@ exiftool '-filename<CreateDate' -d IMG_%Y%m%d_%H%M%S%%-c.%%le -r -ext JPG -ext j
 
 ## Hashing
 
+### Create Hashes
 Create hashes recursively:
 ```
 hashdeep -c md5 -v -r -l -W hashdeep_out.txt .
 ```
 
-Validate a hash file without re-hashing. It just checks whether the list of files in the current directory is equivalent with the file list in the hash file. 
-Input: Expects a `hashdeep_out.txt` in the current directory.
-Output: It lists the files which are unique either to file system or to the hash file (only file names and relative paths considered).
+### Validate Hashes
+Validate a hash file without re-hashing:
 ```
 ./hashing/hash_file_validation.sh
 ```
+The scripts checks
 
+* whether the sum of all file byte sizes according to the file system and according to the hash file are identical and
+* whether the list of files in the current directory is equivalent with the file list in the hash file.
+
+Input: Expects a `hashdeep_out.txt` in the current directory.
+Output: The result of the file size checks and list of files which are unique either to file system or to the hash file (only file names and relative paths considered).
+
+### Merging hashes
 Merge all `hashdeep_out.txt` files in the subdirectories of the current working directory (one level only, not recursively). The output is printed to `stdout` and contains a hashdeep-alike header.
 ```
 ./hashing/merge_hash_files.sh > hashdeep_out.txt
