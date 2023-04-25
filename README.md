@@ -7,7 +7,7 @@ Scripts to ensure file synchronization across multiple sources with different di
 Mounting the NAS volumes:
 ```
 sudo su
-mount -t nfs 192.168.0.10:/volume1/photos-tmp /media/photos-tmp/
+mount -t nfs -o nfsvers=3 192.168.0.10:/volume1/photos-tmp /media/photos-tmp/
 ```
 
 ## Pre-Hashing
